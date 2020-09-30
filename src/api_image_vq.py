@@ -19,8 +19,7 @@ def recreate_img(codebook, labels, w, h):
     return img
 
 
-def api_train_and_display(n_colors):
-    img = load_sample_image('china.jpg')
+def api_train_vq(img, n_colors=64):
     width, height, depth = img.shape
     img = np.array(img, dtype=np.float64) / 255
     img_array = img.reshape((-1, depth))
@@ -37,12 +36,5 @@ def api_train_and_display(n_colors):
     predict_time = time() - t1
     print('predict used %0.3fs' % predict_time)
 
-    plt.figure(1)
-    plt.subplot(1, 2, 1)
-    plt.title('before')
-    plt.imshow(img)
-
-    plt.subplot(1, 2, 2)
-    plt.title('after')
-    plt.imshow(recreate_img(model.cluster_centers_, labels, width, height))
-    plt.show()
+    after = recreate_img(model.cluster_centers_, labels, width, height)
+    return img, after
